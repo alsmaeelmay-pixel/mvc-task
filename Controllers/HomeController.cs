@@ -39,6 +39,19 @@ namespace MvcTodoApp.Controllers
         }
 
         /// <summary>
+        /// تعديل مهمة .
+        /// </summary>
+        [HttpPost]
+        public IActionResult EditTask(int id,string newTitle)
+        {
+            var task = tasks.FirstOrDefault(t => t.Id == id);
+            if (task != null && !string.IsNullOrWhiteSpace(newTitle))
+                task.Title = newTitle;
+            return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
         /// تعيين مهمة كمكتملة.
         /// </summary>
         [HttpPost]
@@ -47,6 +60,19 @@ namespace MvcTodoApp.Controllers
             var task = tasks.FirstOrDefault(t => t.Id == id);
             if (task != null)
                 task.IsComplete = true;
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// حذف المهمة (CRUD - Delete).
+        /// </summary>
+        [HttpPost]
+        public IActionResult DeleteTask(int id)
+        {
+            var task = tasks.FirstOrDefault(t => t.Id == id);
+            if (task != null)
+                tasks.Remove(task);
+
             return RedirectToAction("Index");
         }
     }
